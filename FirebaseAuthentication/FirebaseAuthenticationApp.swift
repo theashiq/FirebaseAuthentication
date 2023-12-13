@@ -6,12 +6,22 @@
 //
 
 import SwiftUI
+import FirebaseCore
 
 @main
 struct FirebaseAuthenticationApp: App {
+    
+    @StateObject var authTracker = AuthTracker(authProvider: DummyAuthProvider())
+
+    init() {
+        // Use Firebase library to configure APIs
+        FirebaseApp.configure()
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(authTracker)
         }
     }
 }

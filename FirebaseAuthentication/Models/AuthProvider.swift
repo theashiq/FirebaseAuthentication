@@ -12,7 +12,7 @@ typealias AuthResponseHandler = (AuthError?) -> Void
 // MARK: AuthProvider
 protocol AuthProvider {
     var authUserUpdateDelegate: AuthUserUpdateDelegate? { get set }
-    func loginAnonymous(handler: AuthResponseHandler?)
+    func loginAnonymously(handler: AuthResponseHandler?)
     func logout(handler: AuthResponseHandler?)
 }
 
