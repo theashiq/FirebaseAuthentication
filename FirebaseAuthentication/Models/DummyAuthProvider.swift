@@ -19,7 +19,7 @@ class DummyAuthProvider: AuthProvider{
     
     init(){
         // Calling this function just to simulate session retention
-        loginAnonymously()
+//        loginAnonymously()
     }
     
     var authUserUpdateDelegate: AuthUserUpdateDelegate?

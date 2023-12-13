@@ -22,7 +22,7 @@ struct LoadingView: View{
                 ContentView()
             }
             else{
-                Text("Go to login/register")
+                AuthenticationView(viewModel: AuthenticationViewModel(authProvider: authTracker.authProvider))
             }
             
             if isShowingLogo{

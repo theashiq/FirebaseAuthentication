@@ -24,6 +24,8 @@ struct LogoView: View {
                     .offset(y: 10)
                 
             }
+            .scaledToFill()
+            .frame(width: 100, height: 100)
             .scaleEffect(CGSize(width: 2.0, height: 2.0))
             
             Text("Authentication Flow")
@@ -32,8 +34,10 @@ struct LogoView: View {
                 .foregroundStyle(
                     .linearGradient(colors: [.green, .brown, .orange], startPoint: .bottomLeading, endPoint: .topTrailing)
                 )
+                .frame(width: 120)
         }
-        .frame(width: 120, height: 120)
+        .offset(y: -25)
+        .frame(width: 150, height: 150)
     }
 }
 
