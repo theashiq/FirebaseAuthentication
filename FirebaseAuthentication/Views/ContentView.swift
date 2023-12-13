@@ -8,12 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @EnvironmentObject var authTracker: AuthTracker
+    
     var body: some View {
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            
+            if authTracker.isAuthenticated{
+                Text("Hello, \(authTracker.displayName)!")
+                Button("Logout") {
+                    withAnimation {
+                        authTracker.authProvider.logout(handler: nil)
+                    }
+                }
+            }
+            else{
+                Text("Hello, world!")
+            }
         }
         .padding()
     }
@@ -21,4 +35,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environmentObject(AuthTracker(authProvider: DummyAuthProvider()))
 }
