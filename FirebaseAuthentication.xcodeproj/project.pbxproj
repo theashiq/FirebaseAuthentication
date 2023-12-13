@@ -12,6 +12,10 @@
 		1ACAF5682B2A162700BB898B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ACAF5672B2A162700BB898B /* Assets.xcassets */; };
 		1ACAF56B2B2A162700BB898B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ACAF56A2B2A162700BB898B /* Preview Assets.xcassets */; };
 		1ACAF5722B2A192B00BB898B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1ACAF5712B2A192B00BB898B /* GoogleService-Info.plist */; };
+		1ACAF5742B2A19C000BB898B /* AuthTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACAF5732B2A19C000BB898B /* AuthTracker.swift */; };
+		1ACAF5762B2A19FD00BB898B /* AuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACAF5752B2A19FD00BB898B /* AuthProvider.swift */; };
+		1ACAF5792B2A1A3D00BB898B /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACAF5782B2A1A3D00BB898B /* AuthUser.swift */; };
+		1ACAF57B2B2A47D200BB898B /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACAF57A2B2A47D200BB898B /* AuthError.swift */; };
 		D935B358FBAE26C1E0ACAEFC /* Pods_FirebaseAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9918BEF7C1675B3AB9183D2 /* Pods_FirebaseAuthentication.framework */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +27,10 @@
 		1ACAF5672B2A162700BB898B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1ACAF56A2B2A162700BB898B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1ACAF5712B2A192B00BB898B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1ACAF5732B2A19C000BB898B /* AuthTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthTracker.swift; sourceTree = "<group>"; };
+		1ACAF5752B2A19FD00BB898B /* AuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthProvider.swift; sourceTree = "<group>"; };
+		1ACAF5782B2A1A3D00BB898B /* AuthUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthUser.swift; path = ../../../AuthUser.swift; sourceTree = "<group>"; };
+		1ACAF57A2B2A47D200BB898B /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		76674062A676D13F7B1FE00F /* Pods-FirebaseAuthentication.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseAuthentication.release.xcconfig"; path = "Target Support Files/Pods-FirebaseAuthentication/Pods-FirebaseAuthentication.release.xcconfig"; sourceTree = "<group>"; };
 		B9918BEF7C1675B3AB9183D2 /* Pods_FirebaseAuthentication.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FirebaseAuthentication.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -60,9 +68,10 @@
 		1ACAF5622B2A162500BB898B /* FirebaseAuthentication */ = {
 			isa = PBXGroup;
 			children = (
-				1ACAF5712B2A192B00BB898B /* GoogleService-Info.plist */,
+				1ACAF5772B2A1A2A00BB898B /* Models */,
 				1ACAF5632B2A162500BB898B /* FirebaseAuthenticationApp.swift */,
 				1ACAF5652B2A162500BB898B /* ContentView.swift */,
+				1ACAF5712B2A192B00BB898B /* GoogleService-Info.plist */,
 				1ACAF5672B2A162700BB898B /* Assets.xcassets */,
 				1ACAF5692B2A162700BB898B /* Preview Content */,
 			);
@@ -75,6 +84,17 @@
 				1ACAF56A2B2A162700BB898B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		1ACAF5772B2A1A2A00BB898B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1ACAF5752B2A19FD00BB898B /* AuthProvider.swift */,
+				1ACAF5732B2A19C000BB898B /* AuthTracker.swift */,
+				1ACAF5782B2A1A3D00BB898B /* AuthUser.swift */,
+				1ACAF57A2B2A47D200BB898B /* AuthError.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		2AF42F6DCF24C41DA0D39CB3 /* Pods */ = {
@@ -209,7 +229,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1ACAF57B2B2A47D200BB898B /* AuthError.swift in Sources */,
 				1ACAF5662B2A162500BB898B /* ContentView.swift in Sources */,
+				1ACAF5742B2A19C000BB898B /* AuthTracker.swift in Sources */,
+				1ACAF5762B2A19FD00BB898B /* AuthProvider.swift in Sources */,
+				1ACAF5792B2A1A3D00BB898B /* AuthUser.swift in Sources */,
 				1ACAF5642B2A162500BB898B /* FirebaseAuthenticationApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
