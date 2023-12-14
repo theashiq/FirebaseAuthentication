@@ -18,7 +18,11 @@ class AnonymousAuthenticationViewModel: AlerterViewModel{
     
     // MARK: - User Intents
     func loginAnonymously(onProgressComplete: @escaping ()-> Void){
-        guard !inProgress else { return }
+        guard !inProgress else {
+            self.alert = .authErrorAlert(from: .loading)
+            onProgressComplete()
+            return
+        }
         
         anonymousAuthProvider.loginAnonymously {[weak self] authError in
             DispatchQueue.main.async{
