@@ -19,7 +19,6 @@
 		1ACAF5722B2A192B00BB898B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1ACAF5712B2A192B00BB898B /* GoogleService-Info.plist */; };
 		1ACAF5742B2A19C000BB898B /* AuthTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACAF5732B2A19C000BB898B /* AuthTracker.swift */; };
 		1ACAF5762B2A19FD00BB898B /* AuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACAF5752B2A19FD00BB898B /* AuthProvider.swift */; };
-		1ACAF5792B2A1A3D00BB898B /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACAF5782B2A1A3D00BB898B /* AuthUser.swift */; };
 		1ACAF57B2B2A47D200BB898B /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACAF57A2B2A47D200BB898B /* AuthError.swift */; };
 		1ACAF57F2B2A49FE00BB898B /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACAF57E2B2A49FE00BB898B /* LogoView.swift */; };
 		1ACAF5812B2A4D7A00BB898B /* DummyAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACAF5802B2A4D7A00BB898B /* DummyAuthProvider.swift */; };
@@ -29,6 +28,7 @@
 		1ACAF5912B2A548200BB898B /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACAF5902B2A548200BB898B /* View+Ext.swift */; };
 		1AF4EED92B2B821D00777B38 /* AnonymousAuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF4EED82B2B821D00777B38 /* AnonymousAuthenticationView.swift */; };
 		1AF4EEDB2B2B885100777B38 /* AnonymousAuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF4EEDA2B2B885100777B38 /* AnonymousAuthenticationViewModel.swift */; };
+		1AF5CCA62B2BBE09000AF886 /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF5CCA52B2BBE09000AF886 /* AuthUser.swift */; };
 		D935B358FBAE26C1E0ACAEFC /* Pods_FirebaseAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9918BEF7C1675B3AB9183D2 /* Pods_FirebaseAuthentication.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,7 +47,6 @@
 		1ACAF5712B2A192B00BB898B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1ACAF5732B2A19C000BB898B /* AuthTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthTracker.swift; sourceTree = "<group>"; };
 		1ACAF5752B2A19FD00BB898B /* AuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthProvider.swift; sourceTree = "<group>"; };
-		1ACAF5782B2A1A3D00BB898B /* AuthUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthUser.swift; path = ../../../AuthUser.swift; sourceTree = "<group>"; };
 		1ACAF57A2B2A47D200BB898B /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		1ACAF57E2B2A49FE00BB898B /* LogoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		1ACAF5802B2A4D7A00BB898B /* DummyAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyAuthProvider.swift; sourceTree = "<group>"; };
@@ -57,6 +56,7 @@
 		1ACAF5902B2A548200BB898B /* View+Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
 		1AF4EED82B2B821D00777B38 /* AnonymousAuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousAuthenticationView.swift; sourceTree = "<group>"; };
 		1AF4EEDA2B2B885100777B38 /* AnonymousAuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousAuthenticationViewModel.swift; sourceTree = "<group>"; };
+		1AF5CCA52B2BBE09000AF886 /* AuthUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUser.swift; sourceTree = "<group>"; };
 		76674062A676D13F7B1FE00F /* Pods-FirebaseAuthentication.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseAuthentication.release.xcconfig"; path = "Target Support Files/Pods-FirebaseAuthentication/Pods-FirebaseAuthentication.release.xcconfig"; sourceTree = "<group>"; };
 		B9918BEF7C1675B3AB9183D2 /* Pods_FirebaseAuthentication.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FirebaseAuthentication.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -129,9 +129,9 @@
 				1ACAF5802B2A4D7A00BB898B /* DummyAuthProvider.swift */,
 				1ACAF5752B2A19FD00BB898B /* AuthProvider.swift */,
 				1ACAF5732B2A19C000BB898B /* AuthTracker.swift */,
-				1ACAF5782B2A1A3D00BB898B /* AuthUser.swift */,
 				1ACAF57A2B2A47D200BB898B /* AuthError.swift */,
 				1A005A982B2AF83100213E72 /* AlertMe.swift */,
+				1AF5CCA52B2BBE09000AF886 /* AuthUser.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -320,8 +320,8 @@
 				1ACAF5762B2A19FD00BB898B /* AuthProvider.swift in Sources */,
 				1ACAF57F2B2A49FE00BB898B /* LogoView.swift in Sources */,
 				1ACAF5892B2A53F400BB898B /* AuthenticationViewModel.swift in Sources */,
-				1ACAF5792B2A1A3D00BB898B /* AuthUser.swift in Sources */,
 				1ACAF5642B2A162500BB898B /* FirebaseAuthenticationApp.swift in Sources */,
+				1AF5CCA62B2BBE09000AF886 /* AuthUser.swift in Sources */,
 				1AF4EEDB2B2B885100777B38 /* AnonymousAuthenticationViewModel.swift in Sources */,
 				1A005A9B2B2B00D100213E72 /* InProgress.swift in Sources */,
 				1A005AA02B2B1ED300213E72 /* SocialAuthenticationViewModel.swift in Sources */,
