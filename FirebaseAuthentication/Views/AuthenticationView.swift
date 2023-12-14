@@ -11,42 +11,39 @@ struct AuthenticationView: View{
     
     @EnvironmentObject var authTracker: AuthTracker
     @ObservedObject var viewModel: AuthenticationViewModel
-        
+    
     var body: some View {
-        ZStack{
-            VStack {
-                
-                LogoView()
-                    .scaleEffect(0.75, anchor: UnitPoint(x: 0.5, y: 0))
-                    .padding(.bottom)
-                
-                Spacer()
-                
-                if viewModel.isEmailAuthAvailable{
-                    Text("Email Authentication View Goes Here")
-                    Spacer()
-                }
-                if viewModel.isPhoneAuthAvailable{
-                    Text("Phone Authentication View Goes Here")
-                    Spacer()
-                }
-                
-                anonymousLogin
-                    .disabled(viewModel.inProgress)
-                    .isHidden(!viewModel.isAnonymousAuthAvailable, remove: true)
-                
-            }
-            .padding()
+        
+        VStack {
             
-            if viewModel.inProgress{
-                Color.accentColor.opacity(0.5)
-                    .overlay(
-                        ProgressView()
-                    )
-                    .ignoresSafeArea()
+            LogoView()
+                .scaleEffect(0.75, anchor: UnitPoint(x: 0.5, y: 0))
+                .padding(.bottom)
+            
+            Spacer()
+            
+            if viewModel.isEmailAuthAvailable{
+                Text("Email Authentication View Goes Here")
+                Spacer()
             }
+            if viewModel.isPhoneAuthAvailable{
+                Text("Phone Authentication View Goes Here")
+                Spacer()
+            }
+            
+            anonymousLogin
+                .disabled(viewModel.inProgress)
+                .isHidden(!viewModel.isAnonymousAuthAvailable, remove: true)
+            
         }
-        .frame(maxWidth: 400)
+        .padding()
+        .frame(maxWidth: 200)
+        .inProgress(viewModel.inProgress, progressText: viewModel.progressMessage)
+        .alert(viewModel.alert.title, 
+               isPresented: $viewModel.isAlertPresented,
+               actions: { Button("OK", action: viewModel.dismissAlert) },
+               message: { Text(viewModel.alert.message) }
+        )
     }
     
     private func colorForSocialButton(socialOption: SocialAuthOption) -> Color{

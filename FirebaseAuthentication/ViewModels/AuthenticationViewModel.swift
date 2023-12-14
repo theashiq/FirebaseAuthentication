@@ -7,47 +7,28 @@
 
 import FirebaseAuth
 
-enum AlertMe: Equatable{
-    case none
-    case alert(AuthError)
-    case text(String, String)
-    
-    var title: String{
-        switch self{
-        case .none: return ""
-        case .alert(let authError): return authError.rawValue
-        case .text(let title, _): return title
-        }
-    }
-    var message: String{
-        switch self{
-        case .none: return ""
-        case .alert(let authError): return authError.errorDescription ?? ""
-        case .text(_, let message): return message
-        }
-    }
-}
 
 class AuthenticationViewModel: ObservableObject{
     
     private(set) var authProvider: AuthProvider
     
     @Published private(set) var inProgress: Bool = false
-    @Published private(set) var isAnonymousAuthAvailable: Bool = false
-    @Published private(set) var isEmailAuthAvailable: Bool = false
-    @Published private(set) var isPhoneAuthAvailable: Bool = false
-    @Published private(set) var isSocialAuthAvailable: Bool = false
-    @Published private(set) var socialAuthOptions: [SocialAuthOption] = []
-    
-    @Published var isAlertPresented: Bool = false
-    @Published var alert: AlertMe = .none{
+    @Published private(set) var progressMessage: String = ""
+    @Published private(set) var alert: AlertMe = .none{
         didSet{
             if alert != .none{
                 isAlertPresented = true
             }
         }
     }
-
+    @Published var isAlertPresented: Bool = false
+    
+    @Published private(set) var isAnonymousAuthAvailable: Bool = false
+    @Published private(set) var isEmailAuthAvailable: Bool = false
+    @Published private(set) var isPhoneAuthAvailable: Bool = false
+    @Published private(set) var isSocialAuthAvailable: Bool = false
+    @Published private(set) var socialAuthOptions: [SocialAuthOption] = []
+    
     init(authProvider: AuthProvider){
         self.authProvider = authProvider
         self.isAnonymousAuthAvailable = authProvider is AnonymousAuthProvider
@@ -58,18 +39,29 @@ class AuthenticationViewModel: ObservableObject{
         }) ?? []
     }
     
+    private func setProgressState(_ inProgress: Bool, message: String = ""){
+        self.inProgress = inProgress
+        self.progressMessage = inProgress ? message : ""
+    }
+    
+    // MARK: - User Intents
+    
+    func dismissAlert(){
+        self.alert = .none
+    }
+    
     func loginAnonymously(){
         guard !inProgress else { return }
         guard let anonymousAuthProvider = (authProvider as? AnonymousAuthProvider) else { return }
         
-        inProgress = true
+        setProgressState(true, message: "Logging In")
         
         anonymousAuthProvider.loginAnonymously {[weak self] authError in
             DispatchQueue.main.asyncAfter(deadline: .now() + 2){
                 if let authError{
                     print(authError.localizedDescription)
                 }
-                self?.inProgress = false
+                self?.setProgressState(false)
             }
         }
     }
