@@ -10,26 +10,61 @@ import SwiftUI
 struct ContentView: View {
     
     @EnvironmentObject var authTracker: AuthTracker
+    @State var showAuthView: Bool = false
+    let someColors: [Color] = [.red, .green, .blue]
+    let moreColors: [Color] = [.cyan, .teal, .orange, .brown, .gray]
     
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            
-            if authTracker.isAuthenticated{
+        
+        ZStack{
+            VStack {
                 Text("Hello, \(authTracker.displayName)!")
-                Button("Logout") {
-                    withAnimation {
-                        authTracker.authProvider.logout(handler: nil)
+                    .isHidden(!authTracker.isAuthenticated, remove: true)
+                    .padding(.vertical)
+                
+                HStack{
+                    ForEach(someColors, id: \.self){ color in
+                        color.clipShape(.circle)
+                            .frame(width: 50, height: 50)
                     }
                 }
+                
+                HStack{
+                    ForEach(moreColors, id: \.self){ color in
+                        color.clipShape(.circle)
+                            .frame(width: 50, height: 50)
+                    }
+                }
+                .isHidden(!authTracker.isAuthenticated, remove: true)
+                
+                
+                Button("Login for More Colors") {
+                    withAnimation {
+                        showAuthView.toggle()
+                    }
+                }
+                .padding(.vertical)
+                .isHidden(authTracker.isAuthenticated, remove: true)
+                
+                Button("Logout") {
+                    withAnimation {
+                        authTracker.authProvider.logout{ _ in
+                            showAuthView = false
+                        }
+                    }
+                }
+                .isHidden(!authTracker.isAuthenticated, remove: true)
             }
-            else{
-                Text("Hello, world!")
+            .padding()
+            
+            AuthenticationView(viewModel: AuthenticationViewModel(authProvider: authTracker.authProvider))
+                .isHidden(!showAuthView, remove: true)
+        }
+        .onChange(of: authTracker.isAuthenticated){ value in
+            if value{
+                showAuthView = false
             }
         }
-        .padding()
     }
 }
 

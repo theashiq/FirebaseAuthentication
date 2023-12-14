@@ -7,25 +7,42 @@
 
 import Foundation
 
-class DummyAuthProvider: AuthProvider, AnonymousAuthProvider{
-    private let key_SavedLoginUser: String = "SavedLoginUser"
+class DummyAuthProvider: AuthProvider{
+    private let key_SavedLoginUser: String = "LoggedInUser"
     private var inProgress = false
-    private let delay: DispatchTimeInterval = DispatchTimeInterval.seconds(1)
+    private let delay: DispatchTimeInterval = DispatchTimeInterval.seconds(3)
     private var user: AuthUser? = nil{
         didSet{
             authUserUpdateDelegate?.authUserDidChange(authUser: user)
         }
     }
     
+    var authUserUpdateDelegate: AuthUserUpdateDelegate?
+    
     init(){
         retainExistingUser()
+//        logout()
     }
     
-    var authUserUpdateDelegate: AuthUserUpdateDelegate?
+    func createUser(namePrefix: String) -> AuthUser{
+        let userId = UUID().uuidString
+        let userDisplayName = "\(namePrefix)\(userId.suffix(3))"
+        return AuthUser(id: userId, displayName: userDisplayName)
+    }
+    
+    func loginUser(user: AuthUser) -> Bool{
+        let jsonEncoder = JSONEncoder()
+        if let userData = try? jsonEncoder.encode(user){
+            UserDefaults.standard.set(userData, forKey: key_SavedLoginUser)
+            self.user = user
+            return true
+        }
+        
+        return false
+    }
     
     // MARK: AuthProvider Delegates
     func retainExistingUser(handler: AuthResponseHandler? = nil) {
-        
         guard user == nil else{
             handler?(.alreadyLoggedIn)
             return
@@ -39,13 +56,14 @@ class DummyAuthProvider: AuthProvider, AnonymousAuthProvider{
         
         let jsonDecoder = JSONDecoder()
         
-        if let savedUserData = UserDefaults.standard.data(forKey: key_SavedLoginUser),
-           let existingUser = try? jsonDecoder.decode(AuthUser.self, from: savedUserData){
-            self.user = existingUser
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+            if let savedUserData = UserDefaults.standard.data(forKey: self.key_SavedLoginUser),
+               let existingUser = try? jsonDecoder.decode(AuthUser.self, from: savedUserData){
+                self.user = existingUser
+            }
+            self.inProgress = false
+            handler?(nil)
         }
-        
-        self.inProgress = false
-        handler?(nil)
     }
     
     func logout(handler: AuthResponseHandler? = nil) {
@@ -55,8 +73,10 @@ class DummyAuthProvider: AuthProvider, AnonymousAuthProvider{
             handler?(nil)
         }
     }
+}
 
-    // MARK: AnonymousAuthProvider Delegates
+// MARK: - AnonymousAuthProvider Delegates
+extension DummyAuthProvider: AnonymousAuthProvider{
     func loginAnonymously(handler: AuthResponseHandler? = nil) {
         
         guard user == nil else{
@@ -69,22 +89,52 @@ class DummyAuthProvider: AuthProvider, AnonymousAuthProvider{
         }
         
         inProgress = true
-        
-        let userId = UUID().uuidString
-        let userDisplayName = "AnonymousUser_\(userId.suffix(3))"
-        let user = AuthUser(id: userId, displayName: userDisplayName)
-        var error: AuthError? = nil
-        
-        let jsonEncoder = JSONEncoder()
-        if let userData = try? jsonEncoder.encode(self.user){
-            UserDefaults.standard.set(userData, forKey: key_SavedLoginUser)
+                
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay){
+            if self.loginUser(user: self.createUser(namePrefix: "Anonymous_User_")){
+                handler?(nil)
+            }
+            else{
+                handler?(.loginFail)
+            }
+            self.inProgress = false
         }
-        else{
-            error = .loginFail
+    }
+}
+
+// MARK: - SocialAuthProvider
+extension DummyAuthProvider: SocialAuthProvider{
+    var supportedSocialOptions: Set<SocialAuthOption> {
+        [.apple, .google]
+    }
+    
+    func socialLogin(option: SocialAuthOption, handler: AuthResponseHandler?){
+        
+        guard user == nil else{
+            handler?(.alreadyLoggedIn)
+            return
         }
+        guard !inProgress else{
+            handler?(.loading)
+            return
+        }
+        
+        inProgress = true
         
         DispatchQueue.main.asyncAfter(deadline: .now() + delay){
-            self.user = user
+            
+            var error: AuthError? = nil
+            
+            if option == .apple{
+                let loginResult = self.loginUser(user: self.createUser(namePrefix: "\(option.name)_User_"))
+                
+                if loginResult{
+                    error = .loginFail
+                }
+            }
+            else{
+                error = .other("Login Failed", "\(String(describing: option).capitalized) authentication is not supported yet.")
+            }
             self.inProgress = false
             handler?(error)
         }

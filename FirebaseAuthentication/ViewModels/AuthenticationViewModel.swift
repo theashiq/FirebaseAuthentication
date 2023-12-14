@@ -7,22 +7,27 @@
 
 import FirebaseAuth
 
-
-class AuthenticationViewModel: ObservableObject{
+class AlerterViewModel: ObservableObject{
     
-    private(set) var authProvider: AuthProvider
-    
-    @Published private(set) var inProgress: Bool = false
-    @Published private(set) var progressMessage: String = ""
-    @Published private(set) var alert: AlertMe = .none{
+    @Published var isAlertPresented: Bool = false
+    @Published var alert: AlertMe = .none{
         didSet{
             if alert != .none{
                 isAlertPresented = true
             }
         }
     }
-    @Published var isAlertPresented: Bool = false
     
+    func dismissAlert(){
+        self.alert = .none
+    }
+}
+
+class AuthenticationViewModel: AlerterViewModel{
+    
+    private(set) var authProvider: AuthProvider
+    
+    @Published private(set) var inProgress: Bool = false
     @Published private(set) var isAnonymousAuthAvailable: Bool = false
     @Published private(set) var isEmailAuthAvailable: Bool = false
     @Published private(set) var isPhoneAuthAvailable: Bool = false
@@ -35,34 +40,6 @@ class AuthenticationViewModel: ObservableObject{
         self.isEmailAuthAvailable = authProvider is EmailAuthProvider
         self.isPhoneAuthAvailable = authProvider is PhoneAuthProvider
         self.isSocialAuthAvailable = authProvider is SocialAuthProvider
-        self.socialAuthOptions = (authProvider as? SocialAuthProvider)?.supportedSocialOptions.filter({ _ in true
-        }) ?? []
-    }
-    
-    private func setProgressState(_ inProgress: Bool, message: String = ""){
-        self.inProgress = inProgress
-        self.progressMessage = inProgress ? message : ""
-    }
-    
-    // MARK: - User Intents
-    
-    func dismissAlert(){
-        self.alert = .none
-    }
-    
-    func loginAnonymously(){
-        guard !inProgress else { return }
-        guard let anonymousAuthProvider = (authProvider as? AnonymousAuthProvider) else { return }
-        
-        setProgressState(true, message: "Logging In")
-        
-        anonymousAuthProvider.loginAnonymously {[weak self] authError in
-            DispatchQueue.main.async{
-                if let authError{
-                    self?.alert = .authErrorAlert(from: authError)
-                }
-                self?.setProgressState(false)
-            }
-        }
+        self.socialAuthOptions = (authProvider as? SocialAuthProvider)?.supportedSocialOptions.filter{ _ in true} ?? []
     }
 }
