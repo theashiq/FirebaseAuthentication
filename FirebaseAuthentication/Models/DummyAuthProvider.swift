@@ -50,6 +50,7 @@ class DummyAuthProvider: AuthProvider, AnonymousAuthProvider{
     
     func logout(handler: AuthResponseHandler? = nil) {
         DispatchQueue.main.asyncAfter(deadline: .now() + delay){
+            UserDefaults.standard.removeObject(forKey: self.key_SavedLoginUser)
             self.user = nil
             handler?(nil)
         }

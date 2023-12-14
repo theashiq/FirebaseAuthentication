@@ -57,9 +57,9 @@ class AuthenticationViewModel: ObservableObject{
         setProgressState(true, message: "Logging In")
         
         anonymousAuthProvider.loginAnonymously {[weak self] authError in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+            DispatchQueue.main.async{
                 if let authError{
-                    print(authError.localizedDescription)
+                    self?.alert = .authErrorAlert(from: authError)
                 }
                 self?.setProgressState(false)
             }
