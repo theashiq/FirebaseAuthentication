@@ -32,12 +32,13 @@ struct AuthenticationView: View{
                 }
                 
                 anonymousLogin
-                    .disabled(viewModel.isLoading)
+                    .disabled(viewModel.inProgress)
+                    .isHidden(!viewModel.isAnonymousAuthAvailable, remove: true)
                 
             }
             .padding()
             
-            if viewModel.isLoading{
+            if viewModel.inProgress{
                 Color.accentColor.opacity(0.5)
                     .overlay(
                         ProgressView()
@@ -46,15 +47,6 @@ struct AuthenticationView: View{
             }
         }
         .frame(maxWidth: 400)
-        .accentColor(.orange)
-        .alert(viewModel.alert.title, isPresented: $viewModel.isAlertPresented)
-        {
-            Button("OK", role: .cancel) {
-                viewModel.alert = .none
-            }
-        } message: {
-            Text(viewModel.alert.message)
-        }
     }
     
     private func colorForSocialButton(socialOption: SocialAuthOption) -> Color{
@@ -69,7 +61,7 @@ struct AuthenticationView: View{
     private var anonymousLogin: some View{
         Button{
             withAnimation{
-                viewModel.authProvider.loginAnonymously(handler: nil)
+                viewModel.loginAnonymously()
             }
         } label: {
             Text("Login as Guest")
