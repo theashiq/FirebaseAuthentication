@@ -20,7 +20,7 @@ struct FirebaseAuthenticationApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LoaderView()
                 .environmentObject(authTracker)
         }
     }

@@ -11,16 +11,19 @@ struct AuthenticationView: View{
     
     @EnvironmentObject var authTracker: AuthTracker
     @ObservedObject var viewModel: AuthenticationViewModel
-        
+    
     var body: some View {
+        
         ZStack{
+            
+            Color(.systemBackground)
+                .ignoresSafeArea()
+            
             VStack {
                 
                 LogoView()
                     .scaleEffect(0.75, anchor: UnitPoint(x: 0.5, y: 0))
                     .padding(.bottom)
-                
-                Spacer()
                 
                 if viewModel.isEmailAuthAvailable{
                     Text("Email Authentication View Goes Here")
@@ -30,51 +33,47 @@ struct AuthenticationView: View{
                     Text("Phone Authentication View Goes Here")
                     Spacer()
                 }
+                if viewModel.isSocialAuthAvailable{
+                    Spacer()
+                    hDivider
+                    Text("Use a Social Login")
+                        .foregroundStyle(Color(.secondaryLabel))
+                    
+                    SocialAuthenticationView(viewModel: SocialAuthenticationViewModel(socialAuthProvider: viewModel.authProvider as! SocialAuthProvider))
+                        .padding(.bottom)
+                }
                 
-                anonymousLogin
-                    .disabled(viewModel.isLoading)
+                if viewModel.isAnonymousAuthAvailable{
+                    AnonymousAuthenticationView(viewModel: AnonymousAuthenticationViewModel(anonymousAuthProvider: viewModel.authProvider as! AnonymousAuthProvider))
+                        .padding(.bottom)
+                }
                 
-            }
-            .padding()
-            
-            if viewModel.isLoading{
-                Color.accentColor.opacity(0.5)
-                    .overlay(
-                        ProgressView()
-                    )
-                    .ignoresSafeArea()
+                Button("Logout") {
+                    withAnimation {
+                        authTracker.authProvider.logout(handler: nil)
+                    }
+                }
+                .isHidden(!authTracker.isAuthenticated, remove: true)
+                
             }
         }
-        .frame(maxWidth: 400)
-        .accentColor(.orange)
-        .alert(viewModel.alert.title, isPresented: $viewModel.isAlertPresented)
-        {
-            Button("OK", role: .cancel) {
-                viewModel.alert = .none
-            }
-        } message: {
-            Text(viewModel.alert.message)
-        }
+        .padding()
+        .alert(viewModel.alert.title,
+            isPresented: $viewModel.isAlertPresented,
+            actions: { Button("OK", action: viewModel.dismissAlert) },
+            message: { Text(viewModel.alert.message) }
+        )
     }
     
-    private func colorForSocialButton(socialOption: SocialAuthOption) -> Color{
-        switch socialOption {
-        case .apple:
-                return Color.gray
-        case .google:
-                return Color.blue
+    private var hDivider: some View{
+        HStack{
+            Rectangle().frame(height: 2).frame(maxWidth: 50)
+            Text("Or")
+            Rectangle().frame(height: 2).frame(maxWidth: 50)
         }
-    }
-    
-    private var anonymousLogin: some View{
-        Button{
-            withAnimation{
-                viewModel.authProvider.loginAnonymously(handler: nil)
-            }
-        } label: {
-            Text("Login as Guest")
-                .foregroundStyle(Color.accentColor)
-        }
+        .bold()
+        .foregroundStyle(.gray)
+        .padding(.vertical)
     }
 }
 
