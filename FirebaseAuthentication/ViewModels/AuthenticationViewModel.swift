@@ -25,7 +25,7 @@ class AlerterViewModel: ObservableObject{
 
 class AuthenticationViewModel: AlerterViewModel{
     
-    private(set) var authProvider: AuthProvider
+    private(set) var authProvider: any AuthProvider
     
     @Published private(set) var isAnonymousAuthAvailable: Bool = false
     @Published private(set) var isEmailAuthAvailable: Bool = false
