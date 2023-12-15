@@ -15,7 +15,7 @@ enum AuthError: Error, LocalizedError, Equatable{
     case logoutFail
     case registrationFail
     case passwordResetFail
-    case loading
+    case inProgress
     case other(String, String)
     
     
@@ -29,7 +29,7 @@ enum AuthError: Error, LocalizedError, Equatable{
             case .registrationFail: return "Registration Failed"
             case .passwordResetFail: return "Password Reset Failed"
             
-            case .loading: return "Try Later"
+            case .inProgress: return "Try Later"
             case .other(let title, _): return title
         }
     }
@@ -43,7 +43,7 @@ enum AuthError: Error, LocalizedError, Equatable{
             case .passwordResetFail: return NSLocalizedString("Failed to complete password reset process. Make sure that your have provided correct credentials", comment: "")
             case .loginFail: return NSLocalizedString("Failed to login. Please try again later.", comment: "")
             case .logoutFail: return NSLocalizedString("Failed to log out. Please try again later.", comment: "")
-            case .loading: return NSLocalizedString("Another process is ongoing. Please try again later.", comment: "")
+            case .inProgress: return NSLocalizedString("Another process is ongoing. Please try again later.", comment: "")
             case .other(_, let message): return NSLocalizedString(message, comment: "")
         }
     }

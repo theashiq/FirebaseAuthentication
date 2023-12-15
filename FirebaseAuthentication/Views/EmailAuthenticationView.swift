@@ -15,7 +15,7 @@ struct EmailAuthenticationView: View {
         VStack{
             emailPassAuth
         }
-        .disabled(viewModel.inProgress)
+        .disabled(viewModel.emailAuthProvider.inProgress)
         .alert(viewModel.alert.title, isPresented: $viewModel.isAlertPresented)
         {
             Button("OK", role: .cancel) {

@@ -74,7 +74,6 @@ class EmailAuthenticationViewModel: AlerterViewModel{
     
     private(set) var emailAuthProvider: EmailAuthProvider
     
-    @Published private(set) var inProgress: Bool = false
     @Published private(set) var emailAuthState: EmailAuthState = .login
     
     @Published var displayName: String = ""
@@ -117,8 +116,8 @@ class EmailAuthenticationViewModel: AlerterViewModel{
         
     private func login(_ onProgressComplete: @escaping ()-> Void){
         
-        guard !inProgress else {
-            self.alert = .authErrorAlert(from: .loading)
+        guard !emailAuthProvider.inProgress else {
+            self.alert = .authErrorAlert(from: .inProgress)
             onProgressComplete()
             return
         }
@@ -136,14 +135,11 @@ class EmailAuthenticationViewModel: AlerterViewModel{
             return
         }
         
-        inProgress = true
-        
         emailAuthProvider.emailPassLogin(email: email, password: password) {[weak self] authError in
             DispatchQueue.main.async {
                 if let authError{
                     self?.alert = .authErrorAlert(from: authError)
                 }
-                self?.inProgress = false
                 onProgressComplete()
             }
         }
@@ -151,8 +147,8 @@ class EmailAuthenticationViewModel: AlerterViewModel{
     
     private func register(_ onProgressComplete: @escaping ()-> Void){
         
-        guard !inProgress else {
-            self.alert = .authErrorAlert(from: .loading)
+        guard !emailAuthProvider.inProgress else {
+            self.alert = .authErrorAlert(from: .inProgress)
             onProgressComplete()
             return
         }
@@ -172,15 +168,12 @@ class EmailAuthenticationViewModel: AlerterViewModel{
             onProgressComplete()
             return
         }
-        
-        inProgress = true
-        
+                
         emailAuthProvider.emailPassRegister(displayName: displayName, email: email, password: password) {[weak self] authError in
             DispatchQueue.main.async {
                 if let authError{
                     self?.alert = .authErrorAlert(from: authError)
                 }
-                self?.inProgress = false
                 onProgressComplete()
             }
         }
@@ -188,8 +181,8 @@ class EmailAuthenticationViewModel: AlerterViewModel{
     
     private func resetPassword(_ onProgressComplete: @escaping ()-> Void){
         
-        guard !inProgress else {
-            self.alert = .authErrorAlert(from: .loading)
+        guard !emailAuthProvider.inProgress else {
+            self.alert = .authErrorAlert(from: .inProgress)
             onProgressComplete()
             return
         }
@@ -204,8 +197,6 @@ class EmailAuthenticationViewModel: AlerterViewModel{
             return
         }
         
-        inProgress = true
-        
         emailAuthProvider.resetPassword(email: email) {[weak self] authError in
             DispatchQueue.main.async {
                 if let authError{
@@ -215,7 +206,6 @@ class EmailAuthenticationViewModel: AlerterViewModel{
                     self?.emailAuthState = .login
                     self?.alert = .alert("Verification Link Sent", "A password reset link has been sent to \(self?.email ?? "your email address")")
                 }
-                self?.inProgress = false
                 onProgressComplete()
             }
         }

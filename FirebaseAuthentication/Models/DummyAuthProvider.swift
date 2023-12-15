@@ -9,7 +9,7 @@ import Foundation
 
 class DummyAuthProvider: AuthProvider{
     private let key_SavedLoginUser: String = "LoggedInUser"
-    private var inProgress = false
+    private(set) var inProgress = false
     private let delay: DispatchTimeInterval = DispatchTimeInterval.seconds(1)
     private var user: AuthUser? = nil{
         didSet{
@@ -48,7 +48,7 @@ class DummyAuthProvider: AuthProvider{
             return
         }
         guard !inProgress else{
-            handler?(.loading)
+            handler?(.inProgress)
             return
         }
         
@@ -84,7 +84,7 @@ extension DummyAuthProvider: AnonymousAuthProvider{
             return
         }
         guard !inProgress else{
-            handler?(.loading)
+            handler?(.inProgress)
             return
         }
         
@@ -115,7 +115,7 @@ extension DummyAuthProvider: SocialAuthProvider{
             return
         }
         guard !inProgress else{
-            handler?(.loading)
+            handler?(.inProgress)
             return
         }
         
@@ -150,7 +150,7 @@ extension DummyAuthProvider: EmailAuthProvider{
             return
         }
         guard !inProgress else{
-            handler?(.loading)
+            handler?(.inProgress)
             return
         }
         
@@ -174,7 +174,7 @@ extension DummyAuthProvider: EmailAuthProvider{
             return
         }
         guard !inProgress else{
-            handler?(.loading)
+            handler?(.inProgress)
             return
         }
         
@@ -194,7 +194,7 @@ extension DummyAuthProvider: EmailAuthProvider{
     func resetPassword(email: String, handler: AuthResponseHandler?) {
         
         guard !inProgress else{
-            handler?(.loading)
+            handler?(.inProgress)
             return
         }
         
