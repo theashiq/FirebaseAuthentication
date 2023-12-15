@@ -27,7 +27,6 @@ class AuthenticationViewModel: AlerterViewModel{
     
     private(set) var authProvider: AuthProvider
     
-    @Published private(set) var inProgress: Bool = false
     @Published private(set) var isAnonymousAuthAvailable: Bool = false
     @Published private(set) var isEmailAuthAvailable: Bool = false
     @Published private(set) var isPhoneAuthAvailable: Bool = false

@@ -9,8 +9,8 @@ import Foundation
 
 class DummyAuthProvider: AuthProvider{
     private let key_SavedLoginUser: String = "LoggedInUser"
-    private var inProgress = false
-    private let delay: DispatchTimeInterval = DispatchTimeInterval.seconds(3)
+    private(set) var inProgress = false
+    private let delay: DispatchTimeInterval = DispatchTimeInterval.seconds(1)
     private var user: AuthUser? = nil{
         didSet{
             authUserUpdateDelegate?.authUserDidChange(authUser: user)
@@ -24,9 +24,9 @@ class DummyAuthProvider: AuthProvider{
 //        logout()
     }
     
-    func createUser(namePrefix: String) -> AuthUser{
+    func createUser(namePrefix: String, fullName: Bool = false) -> AuthUser{
         let userId = UUID().uuidString
-        let userDisplayName = "\(namePrefix)\(userId.suffix(3))"
+        let userDisplayName = fullName ? namePrefix : "\(namePrefix)\(userId.suffix(3))"
         return AuthUser(id: userId, displayName: userDisplayName)
     }
     
@@ -48,7 +48,7 @@ class DummyAuthProvider: AuthProvider{
             return
         }
         guard !inProgress else{
-            handler?(.loading)
+            handler?(.inProgress)
             return
         }
         
@@ -84,7 +84,7 @@ extension DummyAuthProvider: AnonymousAuthProvider{
             return
         }
         guard !inProgress else{
-            handler?(.loading)
+            handler?(.inProgress)
             return
         }
         
@@ -115,7 +115,7 @@ extension DummyAuthProvider: SocialAuthProvider{
             return
         }
         guard !inProgress else{
-            handler?(.loading)
+            handler?(.inProgress)
             return
         }
         
@@ -137,6 +137,72 @@ extension DummyAuthProvider: SocialAuthProvider{
             }
             self.inProgress = false
             handler?(error)
+        }
+    }
+}
+
+// MARK: - EmailAuthProvider Delegates
+extension DummyAuthProvider: EmailAuthProvider{
+    func emailPassRegister(displayName: String, email: String, password: String, handler: AuthResponseHandler?) {
+        
+        guard user == nil else{
+            handler?(.alreadyLoggedIn)
+            return
+        }
+        guard !inProgress else{
+            handler?(.inProgress)
+            return
+        }
+        
+        inProgress = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay){
+            if password == "12345678" && self.loginUser(user: self.createUser(namePrefix: displayName, fullName: true)){
+                handler?(nil)
+            }
+            else{
+                handler?(.registrationFail)
+            }
+            self.inProgress = false
+        }
+    }
+    
+    func emailPassLogin(email: String, password: String, handler: AuthResponseHandler?) {
+        
+        guard user == nil else{
+            handler?(.alreadyLoggedIn)
+            return
+        }
+        guard !inProgress else{
+            handler?(.inProgress)
+            return
+        }
+        
+        inProgress = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay){
+            if password == "12345678" && self.loginUser(user: self.createUser(namePrefix: "Email_User_")){
+                handler?(nil)
+            }
+            else{
+                handler?(.loginFail)
+            }
+            self.inProgress = false
+        }
+    }
+    
+    func resetPassword(email: String, handler: AuthResponseHandler?) {
+        
+        guard !inProgress else{
+            handler?(.inProgress)
+            return
+        }
+        
+        inProgress = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay){
+            self.inProgress = false
+            handler?(nil)
         }
     }
 }

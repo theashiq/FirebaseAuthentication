@@ -26,7 +26,8 @@ struct AuthenticationView: View{
                     .padding(.bottom)
                 
                 if viewModel.isEmailAuthAvailable{
-                    Text("Email Authentication View Goes Here")
+                    EmailAuthenticationView(viewModel: EmailAuthenticationViewModel(emailAuthProvider: authTracker.authProvider as! EmailAuthProvider))
+                        .padding(.bottom)
                     Spacer()
                 }
                 if viewModel.isPhoneAuthAvailable{
@@ -57,6 +58,7 @@ struct AuthenticationView: View{
                 
             }
         }
+        .frame(maxWidth: 400)
         .padding()
         .alert(viewModel.alert.title,
             isPresented: $viewModel.isAlertPresented,

@@ -10,7 +10,6 @@ import Foundation
 class AnonymousAuthenticationViewModel: AlerterViewModel{
     
     private(set) var anonymousAuthProvider: AnonymousAuthProvider
-    @Published private(set) var inProgress: Bool = false
     
     init(anonymousAuthProvider: AnonymousAuthProvider) {
         self.anonymousAuthProvider = anonymousAuthProvider
@@ -18,7 +17,11 @@ class AnonymousAuthenticationViewModel: AlerterViewModel{
     
     // MARK: - User Intents
     func loginAnonymously(onProgressComplete: @escaping ()-> Void){
-        guard !inProgress else { return }
+        guard !anonymousAuthProvider.inProgress else {
+            self.alert = .authErrorAlert(from: .inProgress)
+            onProgressComplete()
+            return
+        }
         
         anonymousAuthProvider.loginAnonymously {[weak self] authError in
             DispatchQueue.main.async{

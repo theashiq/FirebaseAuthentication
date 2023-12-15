@@ -6,15 +6,12 @@
 //
 
 import Foundation
-import SwiftUI
 
 class SocialAuthenticationViewModel: AlerterViewModel{
     
     private(set) var socialAuthProvider: SocialAuthProvider
     
-    @Published private(set) var inProgress: Bool = false
     @Published private(set) var socialAuthOptions: [SocialAuthOption] = []
-    
     
     init(socialAuthProvider: SocialAuthProvider) {
         self.socialAuthProvider = socialAuthProvider
@@ -25,7 +22,11 @@ class SocialAuthenticationViewModel: AlerterViewModel{
     
     func socialLogin(option: SocialAuthOption, onProgressComplete: @escaping ()-> Void){
         
-        guard !inProgress else { return }
+        guard !socialAuthProvider.inProgress else {
+            self.alert = .authErrorAlert(from: .inProgress)
+            onProgressComplete()
+            return
+        }
                         
         socialAuthProvider.socialLogin(option: option) {[weak self] authError in
             DispatchQueue.main.async{
