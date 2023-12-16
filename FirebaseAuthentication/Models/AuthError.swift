@@ -15,6 +15,8 @@ enum AuthError: Error, LocalizedError, Equatable{
     case logoutFail
     case registrationFail
     case passwordResetFail
+    case codeVerificationFail
+    
     case inProgress
     case other(String, String)
     
@@ -28,6 +30,7 @@ enum AuthError: Error, LocalizedError, Equatable{
             case .logoutFail: return "Logout Failed"
             case .registrationFail: return "Registration Failed"
             case .passwordResetFail: return "Password Reset Failed"
+            case .codeVerificationFail: return "Code Verification Failed"
             
             case .inProgress: return "Try Later"
             case .other(let title, _): return title
@@ -39,10 +42,13 @@ enum AuthError: Error, LocalizedError, Equatable{
         switch self{
             case .alreadyLoggedIn: return NSLocalizedString("You are already logged in. Log out first.", comment: "")
             case .notLoggedIn: return NSLocalizedString("You are not logged in. Log in first.", comment: "")
-            case .registrationFail: return NSLocalizedString("Failed to complete registration. Please try again later.", comment: "")
-            case .passwordResetFail: return NSLocalizedString("Failed to complete password reset process. Make sure that your have provided correct credentials", comment: "")
+            
             case .loginFail: return NSLocalizedString("Failed to login. Please try again later.", comment: "")
             case .logoutFail: return NSLocalizedString("Failed to log out. Please try again later.", comment: "")
+            case .registrationFail: return NSLocalizedString("Failed to complete registration. Please try again later.", comment: "")
+            case .passwordResetFail: return NSLocalizedString("Failed to complete password reset process. Make sure that your have provided correct credentials", comment: "")
+            case .codeVerificationFail: return "Incorrect Verification Code"
+            
             case .inProgress: return NSLocalizedString("Another process is ongoing. Please try again later.", comment: "")
             case .other(_, let message): return NSLocalizedString(message, comment: "")
         }

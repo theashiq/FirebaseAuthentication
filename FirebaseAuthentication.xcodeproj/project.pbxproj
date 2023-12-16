@@ -26,6 +26,7 @@
 		1ACAF5892B2A53F400BB898B /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACAF5882B2A53F400BB898B /* AuthenticationViewModel.swift */; };
 		1ACAF58F2B2A543E00BB898B /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACAF58E2B2A543D00BB898B /* AuthenticationView.swift */; };
 		1ACAF5912B2A548200BB898B /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACAF5902B2A548200BB898B /* View+Ext.swift */; };
+		1ADA90B92B2E450B00AD65CB /* PhoneAuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADA90B82B2E450B00AD65CB /* PhoneAuthenticationView.swift */; };
 		1AF4EED92B2B821D00777B38 /* AnonymousAuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF4EED82B2B821D00777B38 /* AnonymousAuthenticationView.swift */; };
 		1AF4EEDB2B2B885100777B38 /* AnonymousAuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF4EEDA2B2B885100777B38 /* AnonymousAuthenticationViewModel.swift */; };
 		1AF5CCA62B2BBE09000AF886 /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF5CCA52B2BBE09000AF886 /* AuthUser.swift */; };
@@ -58,6 +59,7 @@
 		1ACAF5882B2A53F400BB898B /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		1ACAF58E2B2A543D00BB898B /* AuthenticationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		1ACAF5902B2A548200BB898B /* View+Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
+		1ADA90B82B2E450B00AD65CB /* PhoneAuthenticationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneAuthenticationView.swift; sourceTree = "<group>"; };
 		1AF4EED82B2B821D00777B38 /* AnonymousAuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousAuthenticationView.swift; sourceTree = "<group>"; };
 		1AF4EEDA2B2B885100777B38 /* AnonymousAuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousAuthenticationViewModel.swift; sourceTree = "<group>"; };
 		1AF5CCA52B2BBE09000AF886 /* AuthUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUser.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				1A005A9D2B2B194300213E72 /* SocialAuthenticationView.swift */,
 				1AF4EED82B2B821D00777B38 /* AnonymousAuthenticationView.swift */,
 				1AF5CCA92B2BBF6F000AF886 /* EmailAuthenticationView.swift */,
+				1ADA90B82B2E450B00AD65CB /* PhoneAuthenticationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				1ACAF57B2B2A47D200BB898B /* AuthError.swift in Sources */,
 				1ACAF5662B2A162500BB898B /* ContentView.swift in Sources */,
 				1AF5CCAE2B2BC052000AF886 /* CustomTextField.swift in Sources */,
+				1ADA90B92B2E450B00AD65CB /* PhoneAuthenticationView.swift in Sources */,
 				1ACAF5742B2A19C000BB898B /* AuthTracker.swift in Sources */,
 				1ACAF58F2B2A543E00BB898B /* AuthenticationView.swift in Sources */,
 				1A005A992B2AF83100213E72 /* AlertMe.swift in Sources */,

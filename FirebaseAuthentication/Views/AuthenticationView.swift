@@ -31,7 +31,8 @@ struct AuthenticationView: View{
                     Spacer()
                 }
                 if viewModel.isPhoneAuthAvailable{
-                    Text("Phone Authentication View Goes Here")
+                    PhoneAuthenticationView(viewModel: PhoneAuthenticationViewModel(phoneAuthProvider: authTracker.authProvider as! PhoneAuthProvider))
+                        .padding(.bottom)
                     Spacer()
                 }
                 if viewModel.isSocialAuthAvailable{

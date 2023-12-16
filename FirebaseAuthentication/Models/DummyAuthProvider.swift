@@ -206,3 +206,55 @@ extension DummyAuthProvider: EmailAuthProvider{
         }
     }
 }
+
+// MARK: - PhoneAuthProvider Delegates
+extension DummyAuthProvider: PhoneAuthProvider{
+    func phoneRegister(phone: String, handler: AuthResponseHandler?) {
+        
+        guard user == nil else{
+            handler?(.alreadyLoggedIn)
+            return
+        }
+        guard !inProgress else{
+            handler?(.inProgress)
+            return
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay){
+            if phone == "1234567890"{
+                handler?(nil)
+            }
+            else{
+                handler?(.registrationFail)
+            }
+            self.inProgress = false
+        }
+        
+        inProgress = true
+    }
+    
+    func verifyPhoneNumber(code: String, handler: AuthResponseHandler?) {
+        
+        guard user == nil else{
+            handler?(.alreadyLoggedIn)
+            return
+        }
+        guard !inProgress else{
+            handler?(.inProgress)
+            return
+        }
+        
+        inProgress = true
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay){
+            if code == "1234" && self.loginUser(user: self.createUser(namePrefix: "Phone_User_")){
+                handler?(nil)
+            }
+            else{
+                handler?(.codeVerificationFail)
+            }
+            self.inProgress = false
+        }
+    }
+}
