@@ -7,23 +7,10 @@
 
 import FirebaseAuth
 
-class AlerterViewModel: ObservableObject{
-    
-    @Published var isAlertPresented: Bool = false
-    @Published var alert: AlertMe = .none{
-        didSet{
-            if alert != .none{
-                isAlertPresented = true
-            }
-        }
-    }
-    
-    func dismissAlert(){
-        self.alert = .none
-    }
-}
 
 class AuthenticationViewModel: AlerterViewModel{
+    
+    enum AuthViewSelection{ case none, phone, email }
     
     private(set) var authProvider: any AuthProvider
     
@@ -33,6 +20,8 @@ class AuthenticationViewModel: AlerterViewModel{
     @Published private(set) var isSocialAuthAvailable: Bool = false
     @Published private(set) var socialAuthOptions: [SocialAuthOption] = []
     
+    @Published private(set) var selectedAuthView: AuthViewSelection = .none
+    
     init(authProvider: AuthProvider){
         self.authProvider = authProvider
         self.isAnonymousAuthAvailable = authProvider is AnonymousAuthProvider
@@ -40,5 +29,26 @@ class AuthenticationViewModel: AlerterViewModel{
         self.isPhoneAuthAvailable = authProvider is PhoneAuthProvider
         self.isSocialAuthAvailable = authProvider is SocialAuthProvider
         self.socialAuthOptions = (authProvider as? SocialAuthProvider)?.supportedSocialOptions.filter{ _ in true} ?? []
+    }
+    
+    private func providerSelectionPressed(selectedView: AuthViewSelection){
+        if selectedAuthView == selectedView{
+            selectedAuthView = .none
+        }
+        else{
+            selectedAuthView = selectedView
+        }
+    }
+    
+    // MARK: - User Intents
+    
+    func selectEmailAuthView(){
+        providerSelectionPressed(selectedView: .email)
+    }
+    func selectPhoneAuthView(){
+        providerSelectionPressed(selectedView: .phone)
+    }
+    func unselectAuthView(){
+        providerSelectionPressed(selectedView: .none)
     }
 }

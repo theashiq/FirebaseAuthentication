@@ -25,30 +25,36 @@ struct AuthenticationView: View{
                     .scaleEffect(0.75, anchor: UnitPoint(x: 0.5, y: 0))
                     .padding(.bottom)
                 
-                if viewModel.isEmailAuthAvailable{
-                    EmailAuthenticationView(viewModel: EmailAuthenticationViewModel(emailAuthProvider: authTracker.authProvider as! EmailAuthProvider))
-                        .padding(.bottom)
-                    Spacer()
+                if viewModel.isEmailAuthAvailable && viewModel.isPhoneAuthAvailable{
+                    CustomButton(title: "Email Authentication") {
+                        withAnimation {
+                            viewModel.selectEmailAuthView()
+                        }
+                    }
+                    CustomButton(title: "Phone Authentication"){
+                       withAnimation {
+                           viewModel.selectPhoneAuthView()
+                       }
+                    }
                 }
-                if viewModel.isPhoneAuthAvailable{
-                    PhoneAuthenticationView(viewModel: PhoneAuthenticationViewModel(phoneAuthProvider: authTracker.authProvider as! PhoneAuthProvider))
-                        .padding(.bottom)
-                    Spacer()
+                else{
+                    Group{
+                        emailAuthView
+                        phoneAuthView
+                    }
+                    .padding(.bottom)
                 }
-                if viewModel.isSocialAuthAvailable{
+                
+                Group{
                     Spacer()
                     hDivider
                     Text("Use a Social Login")
                         .foregroundStyle(Color(.secondaryLabel))
-                    
-                    SocialAuthenticationView(viewModel: SocialAuthenticationViewModel(socialAuthProvider: viewModel.authProvider as! SocialAuthProvider))
-                        .padding(.bottom)
+                    socialAuthView
                 }
+                .isHidden(!viewModel.isSocialAuthAvailable, remove: true)
                 
-                if viewModel.isAnonymousAuthAvailable{
-                    AnonymousAuthenticationView(viewModel: AnonymousAuthenticationViewModel(anonymousAuthProvider: viewModel.authProvider as! AnonymousAuthProvider))
-                        .padding(.bottom)
-                }
+                anonymousAuthView
                 
                 Button("Logout") {
                     withAnimation {
@@ -58,6 +64,9 @@ struct AuthenticationView: View{
                 .isHidden(!authTracker.isAuthenticated, remove: true)
                 
             }
+            
+            selectedAuthView
+                
         }
         .frame(maxWidth: 400)
         .padding()
@@ -66,6 +75,78 @@ struct AuthenticationView: View{
             actions: { Button("OK", action: viewModel.dismissAlert) },
             message: { Text(viewModel.alert.message) }
         )
+    }
+    
+    private var selectedAuthView: some View{
+        ZStack{
+            Color(.systemBackground)
+                .opacity(0.8)
+                .blur(radius: 20, opaque: true)
+                .ignoresSafeArea()
+                .isHidden(viewModel.selectedAuthView == .none, remove: true)
+            
+            VStack{
+                Spacer()
+                Group{
+                    emailAuthView
+                        .isHidden(viewModel.selectedAuthView != .email, remove: true)
+                    phoneAuthView
+                        .isHidden(viewModel.selectedAuthView != .phone, remove: true)
+                }
+                .padding(.bottom)
+                
+                Spacer()
+                
+                Button{
+                    withAnimation {
+                       viewModel.unselectAuthView()
+                    }
+                } label:{
+                    Image(systemName: "chevron.backward.circle.fill")
+                        .scaleEffect(CGSize(width: 3, height: 3))
+                }
+                .padding(.vertical)
+                .isHidden(viewModel.selectedAuthView == .none, remove: true)
+            }
+        }
+        .isHidden(!(viewModel.isEmailAuthAvailable && viewModel.isPhoneAuthAvailable), remove: true)
+    }
+    
+    @ViewBuilder
+    private var emailAuthView: some View{
+        if viewModel.isEmailAuthAvailable{
+            EmailAuthenticationView(viewModel: EmailAuthenticationViewModel(emailAuthProvider: authTracker.authProvider as! EmailAuthProvider))
+        }
+        else{
+            EmptyView()
+        }
+    }
+    @ViewBuilder
+    private var phoneAuthView: some View{
+        if viewModel.isPhoneAuthAvailable{
+            PhoneAuthenticationView(viewModel: PhoneAuthenticationViewModel(phoneAuthProvider: authTracker.authProvider as! PhoneAuthProvider))
+        }
+        else{
+            EmptyView()
+        }
+    }
+    @ViewBuilder
+    private var socialAuthView: some View{
+        if viewModel.isSocialAuthAvailable{
+            SocialAuthenticationView(viewModel: SocialAuthenticationViewModel(socialAuthProvider: viewModel.authProvider as! SocialAuthProvider))
+        }
+        else{
+            EmptyView()
+        }
+    }
+    @ViewBuilder
+    private var anonymousAuthView: some View{
+        if viewModel.isAnonymousAuthAvailable{
+            AnonymousAuthenticationView(viewModel: AnonymousAuthenticationViewModel(anonymousAuthProvider: viewModel.authProvider as! AnonymousAuthProvider))
+        }
+        else{
+            EmptyView()
+        }
     }
     
     private var hDivider: some View{
