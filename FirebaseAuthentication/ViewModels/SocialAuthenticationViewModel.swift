@@ -9,7 +9,7 @@ import Foundation
 
 class SocialAuthenticationViewModel: AlerterViewModel{
     
-    private(set) var socialAuthProvider: SocialAuthProvider
+    private(set) var socialAuthProvider: any SocialAuthProvider
     
     @Published private(set) var socialAuthOptions: [SocialAuthOption] = []
     

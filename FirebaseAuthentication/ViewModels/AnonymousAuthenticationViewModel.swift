@@ -9,7 +9,7 @@ import Foundation
 
 class AnonymousAuthenticationViewModel: AlerterViewModel{
     
-    private(set) var anonymousAuthProvider: AnonymousAuthProvider
+    private(set) var anonymousAuthProvider: any AnonymousAuthProvider
     
     init(anonymousAuthProvider: AnonymousAuthProvider) {
         self.anonymousAuthProvider = anonymousAuthProvider

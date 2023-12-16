@@ -72,7 +72,7 @@ struct ValidationMessages {
 
 class EmailAuthenticationViewModel: AlerterViewModel{
     
-    private(set) var emailAuthProvider: EmailAuthProvider
+    private(set) var emailAuthProvider: any EmailAuthProvider
     
     @Published private(set) var emailAuthState: EmailAuthState = .login
     
