@@ -80,8 +80,6 @@ struct AuthenticationView: View{
     private var selectedAuthView: some View{
         ZStack{
             Color(.systemBackground)
-                .opacity(0.8)
-                .blur(radius: 20, opaque: true)
                 .ignoresSafeArea()
                 .isHidden(viewModel.selectedAuthView == .none, remove: true)
             
